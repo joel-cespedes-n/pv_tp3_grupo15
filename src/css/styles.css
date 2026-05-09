@@ -1,0 +1,127 @@
+:root {
+    --color-primario: #2c3e50;
+    --color-secundario: #3498db;
+    --color-fondo: #f4f4f4;
+    --fuente-principal: 'Arial', sans-serif;
+}
+
+/*
+body {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "nav main"
+        "footer footer";
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    font-family: var(--fuente-principal);
+    background-color: var(--color-fondo);
+}
+*/
+header { grid-area: header; background: var(--color-primario); color: white; text-align: center; padding: 10px; }
+nav { grid-area: nav; background: #ddd; padding: 10px; }
+main { grid-area: main; padding: 20px; }
+footer { grid-area: footer; background: var(--color-primario); color: white; text-align: center; padding: 10px; }
+
+nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+nav a {
+    text-decoration: none;
+    color: var(--color-primario);
+}
+
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.card {
+    flex: 1 1 200px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: white;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+form input, form button {
+    padding: 8px;
+}
+
+a:hover { color: var(--color-secundario); }
+input:focus { border: 2px solid var(--color-secundario); }
+button:hover { background: var(--color-secundario); color: white; }
+button:active { transform: scale(0.95); }
+
+#titulo { font-size: 24px; }
+.destacado { color: var(--color-secundario); font-weight: bold; }
+
+/* ---------------------- */
+section p {
+    line-height: 1.7;         
+    margin-bottom: 1.2em;     
+    color: #333;               
+    text-align: justify;       
+}
+
+h2, h3{
+    margin-top: 1.5em;
+    margin-bottom: 0.6em;
+    font-weight: 600;         
+    letter-spacing: 0.5px;     
+    line-height: 1.3;
+}
+
+h2 {
+    border-bottom: 2px solid #ccc; 
+    padding-bottom: 0.3em;
+    color: #2c3e50;                
+}
+
+h3 {
+    color: #34495e;
+}
+
+aside {
+    background: #f9f9f9;        
+    padding: 1.5em;
+    border-radius: 8px;         
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
+    max-width: 250px;           
+}
+
+aside form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;                   
+}
+
+aside label {
+    font-weight: 600;
+    color: #2c3e50;             
+    margin-bottom: 0.3em;
+}
+
+aside select {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 0.95em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+aside select:focus {
+    border-color: #2c3e50;    
+    box-shadow: 0 0 5px rgba(44,62,80,0.3);
+    outline: none;
+}
