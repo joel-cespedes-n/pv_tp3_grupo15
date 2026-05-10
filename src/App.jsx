@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import proyectoService from './services/proyectoService.js'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 
 function App() {
+  const[proyectos, setProyecto] = useState(proyectoService.obtenerProyectos())
   const [count, setCount] = useState(0)
 
   return (
@@ -32,6 +34,17 @@ function App() {
 
       <div className="ticks"></div>
 
+       <section id="proyectos">
+        <h2>Lista de Proyectos</h2>
+        <ul>
+          {proyectos.map(p => (
+            <li key={p.id}>
+              {p.titulo} - {p.categoria} ({p.estado})
+            </li>
+          ))}
+        </ul>
+      </section>
+      
       <section id="next-steps">
         <div id="docs">
           <svg className="icon" role="presentation" aria-hidden="true">
