@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import proyectoService from "../services/proyectoService.js";
 const ListaProyectos = () => {
     
@@ -13,7 +13,9 @@ const ListaProyectos = () => {
     const filtrarProyectos = proyectos.filter(p => p.titulo.toLowerCase().includes(busqueda.toLowerCase()));
 
     const handleAdd = () => {
-        const nuevoId = proyectos.length + 1;
+        const nuevoId =proyectos.length > 0
+        ? Math.max(...proyectos.map(p => p.id)) + 1
+        : 1;
 
         const proyectoAgregar = {
             id: nuevoId,
@@ -29,8 +31,9 @@ const ListaProyectos = () => {
         setNuevoProyecto({ titulo: "", categoria: "", estado: "Activo" });
     }
 
-    const handleRemove = (titulo) => {
-        setProyectos(proyectos.filter(p => p.titulo !== titulo));
+    const handleRemove = (id) => {
+    proyectoService.eliminarProyecto(id);
+    setProyectos(proyectoService.obtenerProyectos());
     }
 
     const handleInputChange = (e) => {
@@ -51,7 +54,7 @@ const ListaProyectos = () => {
                 {filtrarProyectos.map(p => (
                     <li key={p.id}>
                         {p.titulo} - {p.categoria} ({p.estado})
-                        <button onClick={() => handleRemove(p.titulo)}>Eliminar</button>
+                        <button onClick={() => handleRemove(p.id)}>Eliminar</button>
                     </li>
                 ))}
             </ul>
