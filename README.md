@@ -1,3 +1,13 @@
+Trabajo Practico N°3 Grupo 15
+Integrantes:
+nombre: Cespedes Joel Normando
+usuario: joel-cespedes-n
+
+nombre: Gutierrez Maximiliano Gabriel
+usuario: gabrielgu-19
+
+Descripcion del proyecto:
+Gestion de proyectos educativos, usar componentes funcionales de react para crear un sitio web donde se pueda visualizar, agregar, eliminar y buscar proyectos educativos.
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
