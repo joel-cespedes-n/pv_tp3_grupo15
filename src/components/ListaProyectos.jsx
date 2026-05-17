@@ -1,5 +1,7 @@
 import { useState } from "react";
 import proyectoService from "../services/proyectoService.js";
+import ProyectoCard from "./ProyectoCard.jsx";
+
 const ListaProyectos = () => {
     
     const [proyectos, setProyectos] = useState(proyectoService.obtenerProyectos());
@@ -44,21 +46,20 @@ const ListaProyectos = () => {
         });
     };
 
+const handleVerDetalle = (id) =>{
+    console.log("Ver detalles del proyecto con id:", id);
+};
+
     return (
         <div className="container">
             <h2>Lista de Proyectos</h2>
 
-            <input type="text" placeholder="Buscar proyecto" value={busqueda} onChange={e => setBusqueda(e.target.value)} />
-
-            <ul>
-                {filtrarProyectos.map(p => (
-                    <li key={p.id}>
-                        {p.titulo} - {p.categoria} ({p.estado})
-                        <button onClick={() => handleRemove(p.id)}>Eliminar</button>
-                    </li>
-                ))}
-            </ul>
-
+            <input 
+            type="text" 
+            placeholder="Buscar proyecto" 
+            value={busqueda} 
+            onChange={e => setBusqueda(e.target.value)} 
+            />
 
             <input 
                 type="text" 
@@ -89,8 +90,19 @@ const ListaProyectos = () => {
             
             <button onClick={handleAdd}>Agregar Proyecto</button>
 
+            <div className="lista">
+                {filtrarProyectos.map(p => (
+                    <ProyectoCard
+                     key={p.id}
+                     proyecto={p}
+                     onEliminar={handleRemove}
+                     onVerDetalle={handleVerDetalle}
+                        
+                    />
+                ))}
+                </div>
         </div>
-    )
-}
+    );
+};
 
 export default ListaProyectos;
