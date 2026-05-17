@@ -1,6 +1,7 @@
 import { useState } from "react";
 import proyectoService from "../services/proyectoService.js";
 import ProyectoCard from "./ProyectoCard.jsx";
+import DetalleProyecto from "./DetalleProyecto.jsx";
 
 const ListaProyectos = () => {
     
@@ -11,6 +12,7 @@ const ListaProyectos = () => {
         categoria: "",
         estado: "Activo"
     });
+    const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
 
     const filtrarProyectos = proyectos.filter(p => p.titulo.toLowerCase().includes(busqueda.toLowerCase()));
 
@@ -47,8 +49,18 @@ const ListaProyectos = () => {
     };
 
 const handleVerDetalle = (id) =>{
-    console.log("Ver detalles del proyecto con id:", id);
+    const proyecto = proyectoService.obtenerProyectoPorId(id);
+    setProyectoSeleccionado(proyecto);
 };
+
+    if(proyectoSeleccionado){
+        return(
+            <DetalleProyecto 
+            proyecto={proyectoSeleccionado} 
+            onVolver={() => setProyectoSeleccionado(null)} 
+            />
+        );
+    }
 
     return (
         <div className="container">
@@ -83,9 +95,9 @@ const handleVerDetalle = (id) =>{
                 onChange={handleInputChange}
             >
                 <option value="Activo">Activo</option>
-                <option value="En progreso">En progreso</option>
-                <option value="Completado">Completado</option>
-                <option value="En pausa">En pausa</option>
+                <option value="En desarrollo">En desarrollo</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="Finalizado">Finalizado</option>
             </select>
             
             <button onClick={handleAdd}>Agregar Proyecto</button>
