@@ -10,7 +10,10 @@ const ListaProyectos = () => {
     const [nuevoProyecto, setNuevoProyecto] = useState({
         titulo: "",
         categoria: "",
-        estado: "Activo"
+        estado: "Activo",
+        descripcion: "",
+        recursos: [],
+        equipo: []
     });
     const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
 
@@ -25,14 +28,17 @@ const ListaProyectos = () => {
             id: nuevoId,
             titulo: nuevoProyecto.titulo,
             categoria: nuevoProyecto.categoria,
-            estado: nuevoProyecto.estado
+            estado: nuevoProyecto.estado,
+            descripcion: nuevoProyecto.descripcion,
+            recursos: nuevoProyecto.recursos,
+            equipo: nuevoProyecto.equipo
         };
 
         proyectoService.agregarProyecto(proyectoAgregar);
 
         setProyectos(proyectoService.obtenerProyectos());
 
-        setNuevoProyecto({ titulo: "", categoria: "", estado: "Activo" });
+        setNuevoProyecto({ titulo: "", categoria: "", estado: "Activo", descripcion: "", recursos: [], equipo: [] });
     }
 
     const handleRemove = (id) => {
@@ -89,6 +95,78 @@ const handleVerDetalle = (id) =>{
                 onChange={handleInputChange} 
             />
             
+            <textarea
+                name="descripcion"
+                placeholder="Descripción" 
+                value={nuevoProyecto.descripcion} 
+                onChange={handleInputChange} 
+            />
+
+           {nuevoProyecto.recursos.map((recurso, index) => (
+            <div key={index}>
+                <input
+                type="text"
+                placeholder={`Recurso ${index + 1}`}
+                value={recurso}
+                onChange={(e) => {
+                    const nuevosRecursos = [...nuevoProyecto.recursos];
+                    nuevosRecursos[index] = e.target.value;
+                    setNuevoProyecto({ ...nuevoProyecto, recursos: nuevosRecursos });
+                }}
+                />
+            </div>
+            ))}
+
+            <button
+            type="button"
+            onClick={() =>
+                setNuevoProyecto({
+                ...nuevoProyecto,
+                recursos: [...nuevoProyecto.recursos, ""]
+                })
+            }
+            >
+            ➕ Agregar recurso
+            </button>
+
+            {nuevoProyecto.equipo.map((integrante, index) => (
+            <div key={index}>
+                <input
+                type="text"
+                placeholder="Nombre"
+                value={integrante.nombre}
+                onChange={(e) => {
+                    const nuevoEquipo = [...nuevoProyecto.equipo];
+                    nuevoEquipo[index].nombre = e.target.value;
+                    setNuevoProyecto({ ...nuevoProyecto, equipo: nuevoEquipo });
+                }}
+                />
+                <input
+                type="text"
+                placeholder="Rol"
+                value={integrante.rol}
+                onChange={(e) => {
+                    const nuevoEquipo = [...nuevoProyecto.equipo];
+                    nuevoEquipo[index].rol = e.target.value;
+                    setNuevoProyecto({ ...nuevoProyecto, equipo: nuevoEquipo });
+                }}
+                />
+            </div>
+            ))}
+
+            <button
+            type="button"
+            onClick={() =>
+                setNuevoProyecto({
+                ...nuevoProyecto,
+                equipo: [...nuevoProyecto.equipo, { nombre: "", rol: "" }]
+                })
+            }
+            >
+            ➕ Agregar integrante
+            </button>
+
+           
             <select 
                 name="estado"
                 value={nuevoProyecto.estado} 

@@ -5,7 +5,14 @@ const DetalleProyecto = ({ proyecto, onVolver }) => {
             <p><strong>Categoría:</strong> {proyecto.categoria}</p>
             <p><strong>Estado:</strong> {proyecto.estado}</p>
             <p><strong>Descripción:</strong> {proyecto.descripcion}</p>
-            <p><strong>Lista de Recursos:</strong> <a href={proyecto.recursos} target="_blank" rel="noopener noreferrer">Ver recursos</a></p>
+            <p><strong>Lista de Recursos:</strong></p>
+            <ul>
+                {proyecto.recursos.map((recurso, index) => (
+                    <li key={index}>
+                        <p>{recurso.recurso}</p>
+                    </li>
+                ))}
+            </ul>
             <p><strong>Equipo:</strong></p>
             <ul>
                 {proyecto.equipo.map((miembro, index) => (
