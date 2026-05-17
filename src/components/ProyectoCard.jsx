@@ -1,4 +1,4 @@
-function ProyectoCard({ proyecto, onEliminar, onVerDetalle }) {
+const ProyectoCard = ({ proyecto, onEliminar, onVerDetalle }) => {
     const{ titulo, categoria, estado, id } = proyecto;
     return(
         <div className="card">
