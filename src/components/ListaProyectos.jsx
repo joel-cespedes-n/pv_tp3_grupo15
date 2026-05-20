@@ -2,6 +2,7 @@ import { useState } from "react";
 import proyectoService from "../services/proyectoService.js";
 import ProyectoCard from "./ProyectoCard.jsx";
 import DetalleProyecto from "./DetalleProyecto.jsx";
+import RegistroActividad from "./RegistroActividad.jsx";
 
 const ListaProyectos = () => {
     
@@ -16,6 +17,8 @@ const ListaProyectos = () => {
         equipo: []
     });
     const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
+
+    const[ultimaActualizacion, setUltimaActualizacion] = useState(null);
 
     const filtrarProyectos = proyectos.filter(p => p.titulo.toLowerCase().includes(busqueda.toLowerCase()));
 
@@ -35,16 +38,24 @@ const ListaProyectos = () => {
         };
 
         proyectoService.agregarProyecto(proyectoAgregar);
-
         setProyectos(proyectoService.obtenerProyectos());
 
         setNuevoProyecto({ titulo: "", categoria: "", estado: "Activo", descripcion: "", recursos: [], equipo: [] });
+     
+        const ahora = new Date();
+    setUltimaActualizacion(
+        `${ahora.getDate()}/${ahora.getMonth() + 1}/${ahora.getFullYear()} a las ${ahora.getHours()}:${ahora.getMinutes()} hs.`
+      );
     }
-
     const handleRemove = (id) => {
     proyectoService.eliminarProyecto(id);
     setProyectos(proyectoService.obtenerProyectos());
-    }
+    
+    const ahora = new Date();
+    setUltimaActualizacion(
+        `${ahora.getDate()}/${ahora.getMonth() + 1}/${ahora.getFullYear()} a las ${ahora.getHours()}:${ahora.getMinutes()} hs.`
+    );
+}
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -191,6 +202,7 @@ const handleVerDetalle = (id) =>{
                     />
                 ))}
                 </div>
+                <RegistroActividad fechaHora={ultimaActualizacion}/>
         </div>
     );
 };
