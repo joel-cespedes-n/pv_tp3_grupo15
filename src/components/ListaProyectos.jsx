@@ -4,6 +4,16 @@ import ProyectoCard from "./ProyectoCard.jsx";
 import DetalleProyecto from "./DetalleProyecto.jsx";
 import RegistroActividad from "./RegistroActividad.jsx";
 
+function formatearFechaHora(fecha){
+    const dia = String (fecha.getDate()).padStart(2, "0");
+    const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+    const anio = String(fecha.getFullYear());
+    const horas = String(fecha.getHours()).padStart(2, "0");
+    const minutos = String(fecha.getMinutes()).padStart(2, "0");
+
+    return`Última actualización de la lista: ${dia}/${mes}/${anio} a las ${horas}:${minutos} hs.`;
+}
+
 const ListaProyectos = () => {
     
     const [proyectos, setProyectos] = useState(proyectoService.obtenerProyectos());

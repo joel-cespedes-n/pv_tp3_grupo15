@@ -179,3 +179,10 @@ aside select:focus {
     padding: 6px 10px;
     cursor:pointer;
 }
+
+textarea {
+    vertical-align: middle;
+    height: 15px;
+   resize: none;
+   
+}
