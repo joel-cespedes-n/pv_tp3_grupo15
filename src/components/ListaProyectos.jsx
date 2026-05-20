@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import proyectoService from "../services/proyectoService.js";
 import ProyectoCard from "./ProyectoCard.jsx";
 import DetalleProyecto from "./DetalleProyecto.jsx";
@@ -19,6 +19,20 @@ const ListaProyectos = () => {
     const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
 
     const[ultimaActualizacion, setUltimaActualizacion] = useState(null);
+
+    const primeraCarga = useRef(true)
+
+    useEffect(() => {
+        if (primeraCarga.current) {
+            primeraCarga.current = false;
+            return;
+        }
+    const ahora = new Date();
+    const minutos = String(ahora.getMinutes()).padStart(2, "0");
+    setUltimaActualizacion(
+        `${ahora.getDate()}/${ahora.getMonth() + 1}/${ahora.getFullYear()} a las ${ahora.getHours()}:${minutos} hs.`
+        );
+    }, [proyectos]);
 
     const filtrarProyectos = proyectos.filter(p => p.titulo.toLowerCase().includes(busqueda.toLowerCase()));
 
@@ -41,20 +55,11 @@ const ListaProyectos = () => {
         setProyectos(proyectoService.obtenerProyectos());
 
         setNuevoProyecto({ titulo: "", categoria: "", estado: "Activo", descripcion: "", recursos: [], equipo: [] });
-     
-        const ahora = new Date();
-    setUltimaActualizacion(
-        `${ahora.getDate()}/${ahora.getMonth() + 1}/${ahora.getFullYear()} a las ${ahora.getHours()}:${ahora.getMinutes()} hs.`
-      );
     }
+
     const handleRemove = (id) => {
     proyectoService.eliminarProyecto(id);
     setProyectos(proyectoService.obtenerProyectos());
-    
-    const ahora = new Date();
-    setUltimaActualizacion(
-        `${ahora.getDate()}/${ahora.getMonth() + 1}/${ahora.getFullYear()} a las ${ahora.getHours()}:${ahora.getMinutes()} hs.`
-    );
 }
 
     const handleInputChange = (e) => {
