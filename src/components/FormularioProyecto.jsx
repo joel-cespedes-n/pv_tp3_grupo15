@@ -1,98 +1,39 @@
-import { useState } from "react";
-import proyectoService from "../services/proyectoService.js";
-import ProyectoCard from "./ProyectoCard.jsx";
-import DetalleProyecto from "./DetalleProyecto.jsx";
-import RegistroActividad from "./RegistroActividad.jsx";
-import FormularioProyecto from "./FormularioProyecto.jsx";
 
-const ListaProyectos = () => {
-    
-    const [proyectos, setProyectos] = useState(proyectoService.obtenerProyectos());
-    const [busqueda, setBusqueda] = useState("");
-    /*const [nuevoProyecto, setNuevoProyecto] = useState({
+import { useState } from "react";
+
+const FormularioProyecto = ({onAgregar}) => {
+    const [nuevoProyecto, setNuevoProyecto] = useState({
         titulo: "",
         categoria: "",
         estado: "Activo",
         descripcion: "",
         recursos: [],
         equipo: []
-    });*/
-    const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
+    });
 
-    const[ultimaActualizacion, setUltimaActualizacion] = useState(null);
-
-    const filtrarProyectos = proyectos.filter(p => p.titulo.toLowerCase().includes(busqueda.toLowerCase()));
-
-    const handleAdd = (nuevoProyecto) => {
-        const nuevoId =proyectos.length > 0
-        ? Math.max(...proyectos.map(p => p.id)) + 1
-        : 1;
-
-        /*const proyectoAgregar = {
-            id: nuevoId,
-            titulo: nuevoProyecto.titulo,
-            categoria: nuevoProyecto.categoria,
-            estado: nuevoProyecto.estado,
-            descripcion: nuevoProyecto.descripcion,
-            recursos: nuevoProyecto.recursos,
-            equipo: nuevoProyecto.equipo
-        };*/
-        const proyectoAgregar = {...nuevoProyecto, id: nuevoId };
-
-        proyectoService.agregarProyecto(proyectoAgregar);
-        setProyectos(proyectoService.obtenerProyectos());
-
-        /*setNuevoProyecto({ titulo: "", categoria: "", estado: "Activo", descripcion: "", recursos: [], equipo: [] });*/
-     
-        const ahora = new Date();
-    setUltimaActualizacion(
-        `${ahora.getDate()}/${ahora.getMonth() + 1}/${ahora.getFullYear()} a las ${ahora.getHours()}:${ahora.getMinutes()} hs.`
-      );
-    };
-    const handleRemove = (id) => {
-    proyectoService.eliminarProyecto(id);
-    setProyectos(proyectoService.obtenerProyectos());
-    
-    const ahora = new Date();
-    setUltimaActualizacion(
-        `${ahora.getDate()}/${ahora.getMonth() + 1}/${ahora.getFullYear()} a las ${ahora.getHours()}:${ahora.getMinutes()} hs.`
-    );
-}
-
-    /*const handleInputChange = (e) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNuevoProyecto({
             ...nuevoProyecto,
             [name]: value
         });
-    };*/
+    };
 
-const handleVerDetalle = (id) =>{
-    const proyecto = proyectoService.obtenerProyectoPorId(id);
-    setProyectoSeleccionado(proyecto);
-};
-
-    if(proyectoSeleccionado){
-        return(
-            <DetalleProyecto 
-            proyecto={proyectoSeleccionado} 
-            onVolver={() => setProyectoSeleccionado(null)} 
-            />
-        );
-    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onAgregar(nuevoProyecto);
+        setNuevoProyecto({ 
+            titulo: "",
+            categoria: "",
+            estado: "Activo",
+            descripcion: "",
+            recursos: [],
+            equipo: [] 
+        });
+    };
 
     return (
-        <div className="container">
-            <h2>Lista de Proyectos</h2>
-
-            <input 
-            type="text" 
-            placeholder="Buscar proyecto" 
-            value={busqueda} 
-            onChange={e => setBusqueda(e.target.value)} 
-            />
-
-            {/*
+        <form onSubmit={handleSubmit}>
             <input 
                 type="text" 
                 name="titulo"
@@ -192,24 +133,9 @@ const handleVerDetalle = (id) =>{
                 <option value="Finalizado">Finalizado</option>
             </select>
             
-            <button onClick={handleAdd}>Agregar Proyecto</button>
-            */}
-            <FormularioProyecto onAgregar={handleAdd} />
+            <button type="submit">Agregar Proyecto</button>
+        </form>
+    )
+}
 
-            <div className="lista">
-                {filtrarProyectos.map(p => (
-                    <ProyectoCard
-                     key={p.id}
-                     proyecto={p}
-                     onEliminar={handleRemove}
-                     onVerDetalle={handleVerDetalle}
-                        
-                    />
-                ))}
-                </div>
-                <RegistroActividad fechaHora={ultimaActualizacion}/>
-        </div>
-    );
-};
-
-export default ListaProyectos;
+export default FormularioProyecto;

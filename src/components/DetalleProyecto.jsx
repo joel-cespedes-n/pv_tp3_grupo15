@@ -9,7 +9,7 @@ const DetalleProyecto = ({ proyecto, onVolver }) => {
             <ul>
                 {proyecto.recursos.map((recurso, index) => (
                     <li key={index}>
-                        <p>{recurso.recurso}</p>
+                        <p>{recurso}</p>
                     </li>
                 ))}
             </ul>
