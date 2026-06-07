@@ -1,4 +1,17 @@
-const DetalleProyecto = ({ proyecto, onVolver }) => {
+import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import proyectoService from "../services/proyectoService.js";
+
+const DetalleProyecto = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const proyecto = proyectoService.obtenerProyectoPorId(Number(id));
+
+    if(!proyecto){
+        return <p>Proyecto no encontrado</p>;
+    };
+
     return (
         <div className="detalle">
             <h2>{proyecto.titulo}</h2>
@@ -9,7 +22,7 @@ const DetalleProyecto = ({ proyecto, onVolver }) => {
             <ul>
                 {proyecto.recursos.map((recurso, index) => (
                     <li key={index}>
-                        <p>{recurso.recurso}</p>
+                        <p>{recurso}</p>
                     </li>
                 ))}
             </ul>
@@ -21,7 +34,7 @@ const DetalleProyecto = ({ proyecto, onVolver }) => {
                     </li>
                 ))}
             </ul>
-            <button onClick={onVolver}>Volver a la lista</button>
+            <button onClick={() => navigate('/proyectos')}>Volver a la lista</button>
         </div>
     );
 }
