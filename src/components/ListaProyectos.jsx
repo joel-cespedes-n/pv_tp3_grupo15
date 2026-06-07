@@ -1,7 +1,6 @@
 import { useState } from "react";
 import proyectoService from "../services/proyectoService.js";
 import ProyectoCard from "./ProyectoCard.jsx";
-import DetalleProyecto from "./DetalleProyecto.jsx";
 import RegistroActividad from "./RegistroActividad.jsx";
 import FormularioProyecto from "./FormularioProyecto.jsx";
 
@@ -9,7 +8,6 @@ const ListaProyectos = () => {
     
     const [proyectos, setProyectos] = useState(proyectoService.obtenerProyectos());
     const [busqueda, setBusqueda] = useState("");
-    const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
 
     const[ultimaActualizacion, setUltimaActualizacion] = useState(null);
 
@@ -40,20 +38,6 @@ const ListaProyectos = () => {
     );
 };
 
-const handleVerDetalle = (id) =>{
-    const proyecto = proyectoService.obtenerProyectoPorId(id);
-    setProyectoSeleccionado(proyecto);
-};
-
-    if(proyectoSeleccionado){
-        return(
-            <DetalleProyecto 
-            proyecto={proyectoSeleccionado} 
-            onVolver={() => setProyectoSeleccionado(null)} 
-            />
-        );
-    }
-
     return (
         <div className="container">
             <h2>Lista de Proyectos</h2>
@@ -73,8 +57,7 @@ const handleVerDetalle = (id) =>{
                      key={p.id}
                      proyecto={p}
                      onEliminar={handleRemove}
-                     onVerDetalle={handleVerDetalle}
-                        
+                     /*onVerDetalle={handleVerDetalle}*/           
                     />
                 ))}
                 </div>
