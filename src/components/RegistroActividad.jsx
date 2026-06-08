@@ -1,10 +1,13 @@
-function RegistroActividad({ fechaHora }) {
+import React from "react";
+import { Alert } from "@mui/material"
+
+const RegistroActividad = ({ fechaHora }) => {
 if (!fechaHora) return null;
 
 return (
-    <div className="registro-actividad">
-        <p>Última actualización de la lista: {fechaHora}</p>
-    </div>
+    <Alert severity="info">
+        Última actualización de la lista: {fechaHora}
+    </Alert>
   );
 }
 export default RegistroActividad;

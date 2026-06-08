@@ -1,8 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import proyectoService from "../services/proyectoService.js";
 import ProyectoCard from "./ProyectoCard.jsx";
 import RegistroActividad from "./RegistroActividad.jsx";
 import FormularioProyecto from "./FormularioProyecto.jsx";
+
+function formatearFechaHora(fecha){
+    const dia = String (fecha.getDate()).padStart(2, "0");
+    const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+    const anio = String(fecha.getFullYear());
+    const horas = String(fecha.getHours()).padStart(2, "0");
+    const minutos = String(fecha.getMinutes()).padStart(2, "0");
+
+    return`Última actualización de la lista: ${dia}/${mes}/${anio} a las ${horas}:${minutos} hs.`;
+}
 
 const ListaProyectos = () => {
     
@@ -10,6 +20,17 @@ const ListaProyectos = () => {
     const [busqueda, setBusqueda] = useState("");
 
     const[ultimaActualizacion, setUltimaActualizacion] = useState(null);
+
+    const primeraCarga = useRef(true)
+
+    useEffect(() => {
+        if (primeraCarga.current) {
+            primeraCarga.current = false;
+            return;
+        }
+    const ahora = new Date();
+    setUltimaActualizacion(formatearFechaHora(ahora));
+    }, [proyectos]);
 
     const filtrarProyectos = proyectos.filter(p => p.titulo.toLowerCase().includes(busqueda.toLowerCase()));
 
@@ -24,19 +45,16 @@ const ListaProyectos = () => {
         setProyectos(proyectoService.obtenerProyectos());
      
         const ahora = new Date();
-    setUltimaActualizacion(
-        `${ahora.getDate()}/${ahora.getMonth() + 1}/${ahora.getFullYear()} a las ${ahora.getHours()}:${ahora.getMinutes()} hs.`
-      );
+    setUltimaActualizacion(formatearFechaHora(ahora));
     };
+
     const handleRemove = (id) => {
     proyectoService.eliminarProyecto(id);
     setProyectos(proyectoService.obtenerProyectos());
     
     const ahora = new Date();
-    setUltimaActualizacion(
-        `${ahora.getDate()}/${ahora.getMonth() + 1}/${ahora.getFullYear()} a las ${ahora.getHours()}:${ahora.getMinutes()} hs.`
-    );
-};
+    setUltimaActualizacion(formatearFechaHora(ahora));
+    };
 
     return (
         <div className="container">

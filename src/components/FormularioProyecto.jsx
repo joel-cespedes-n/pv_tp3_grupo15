@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import {TextField, Button, Select, MenuItem, FormControl, InputLabel} from "@mui/material";
 
 const FormularioProyecto = ({onAgregar}) => {
     const [nuevoProyecto, setNuevoProyecto] = useState({
@@ -34,61 +35,68 @@ const FormularioProyecto = ({onAgregar}) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input 
-                type="text" 
-                name="titulo"
-                placeholder="Título" 
+            <TextField
+                label="Titulo"  
+                name="titulo" 
                 value={nuevoProyecto.titulo} 
                 onChange={handleInputChange} 
+                fullWidth
+                margin="normal"
             />
             
-            <input 
-                type="text" 
-                name="categoria"
-                placeholder="Categoría" 
+            <TextField
+                label="categoria"  
+                name="categoria" 
                 value={nuevoProyecto.categoria} 
-                onChange={handleInputChange} 
+                onChange={handleInputChange}
+                fullWidth
+                margin="normal" 
             />
             
-            <textarea
+            <TextField
+                label="Descripcion"
                 name="descripcion"
-                placeholder="Descripción" 
                 value={nuevoProyecto.descripcion} 
                 onChange={handleInputChange} 
+                fullWidth
+                margin="normal"
+                multiline
+                rows={3}
             />
 
            {nuevoProyecto.recursos.map((recurso, index) => (
-            <div key={index}>
-                <input
-                type="text"
-                placeholder={`Recurso ${index + 1}`}
-                value={recurso}
-                onChange={(e) => {
+            <TextField 
+              key={index}
+              label={`Recurso ${index + 1}`}
+              value={recurso}
+              onChange={(e) => {
                     const nuevosRecursos = [...nuevoProyecto.recursos];
                     nuevosRecursos[index] = e.target.value;
                     setNuevoProyecto({ ...nuevoProyecto, recursos: nuevosRecursos });
                 }}
+                fullWidth
+                margin="normal"
                 />
-            </div>
             ))}
 
-            <button
+            <Button
             type="button"
+            variant="outlined"
             onClick={() =>
                 setNuevoProyecto({
                 ...nuevoProyecto,
                 recursos: [...nuevoProyecto.recursos, ""]
                 })
             }
+            sx={{ marginTop: 1 }}
             >
             ➕ Agregar recurso
-            </button>
+            </Button>
 
             {nuevoProyecto.equipo.map((integrante, index) => (
-            <div key={index}>
-                <input
-                type="text"
-                placeholder="Nombre"
+            <div key={index} style={{ display: "flex", gap: "1rem", marginTop: "1rem"}}>
+                <TextField
+                label="Nombre"
                 value={integrante.nombre}
                 onChange={(e) => {
                     const nuevoEquipo = [...nuevoProyecto.equipo];
@@ -96,9 +104,8 @@ const FormularioProyecto = ({onAgregar}) => {
                     setNuevoProyecto({ ...nuevoProyecto, equipo: nuevoEquipo });
                 }}
                 />
-                <input
-                type="text"
-                placeholder="Rol"
+                <TextField
+                label="Rol"
                 value={integrante.rol}
                 onChange={(e) => {
                     const nuevoEquipo = [...nuevoProyecto.equipo];
@@ -109,33 +116,44 @@ const FormularioProyecto = ({onAgregar}) => {
             </div>
             ))}
 
-            <button
-            type="button"
-            onClick={() =>
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={() =>
                 setNuevoProyecto({
                 ...nuevoProyecto,
                 equipo: [...nuevoProyecto.equipo, { nombre: "", rol: "" }]
                 })
             }
-            >
-            ➕ Agregar integrante
-            </button>
+            sx={{ marginTop: 1 }}
+          >
+              ➕ Agregar integrante
+            </Button>
 
-           
-            <select 
+            <FormControl fullWidth margin="normal">
+                <InputLabel>Estado</InputLabel>
+                <Select 
                 name="estado"
                 value={nuevoProyecto.estado} 
                 onChange={handleInputChange}
             >
-                <option value="Activo">Activo</option>
-                <option value="En desarrollo">En desarrollo</option>
-                <option value="Pendiente">Pendiente</option>
-                <option value="Finalizado">Finalizado</option>
-            </select>
+                <MenuItem value="Activo">Activo</MenuItem>
+                <MenuItem value="En desarrollo">En desarrollo</MenuItem>
+                <MenuItem value="Pendiente">Pendiente</MenuItem>
+                <MenuItem value="Finalizado">Finalizado</MenuItem>
+            </Select>
+            </FormControl>
             
-            <button type="submit">Agregar Proyecto</button>
+            <Button
+             type="submit"
+             variant="contained"
+             color="primary"
+             sx={{ marginTop: 2 }}
+            >
+                Agregar Proyecto
+            </Button>
         </form>
-    )
-}
+    );
+};
 
 export default FormularioProyecto;

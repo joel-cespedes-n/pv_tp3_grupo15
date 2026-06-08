@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import {Card,CardContent, Typography, Button } from '@mui/material';
 
 const ProyectoCard = ({ proyecto, onEliminar }) => {
     const{ titulo, categoria, estado, id } = proyecto;
@@ -10,13 +11,22 @@ const ProyectoCard = ({ proyecto, onEliminar }) => {
     };
 
     return(
-        <div className="card">
-            <h3>{titulo}</h3>
-            <p>Categoria: {categoria}</p>
-            <p>Estado: {estado}</p>
-            <button onClick={handleVerDetalle}>Ver detalle</button>
-            <button onClick={() => onEliminar(id)}>Eliminar</button>
-            </div>
+        <Card sx={{ marginBottom: 2 }}> 
+          <CardContent>
+            <Typography variant="h6">{titulo}</Typography>
+            <Typography color="text.secondary">Categoría: {categoria}</Typography>
+            <Typography color="text.secondary">Estado: {estado}</Typography>
+            <Button 
+              variant="outlined" 
+              onClick={handleVerDetalle}
+              sx={{mt: 1 }}
+            >
+                Ver detalle
+            </Button>
+            <Button variant="contained" color="error" onClick={() => onEliminar(id)} sx={{ ml: 1 }}>Eliminar
+           </Button>
+         </CardContent>
+        </Card>
     );
 };
 
