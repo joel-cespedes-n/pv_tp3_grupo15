@@ -10,9 +10,11 @@ import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-d
 import Dashboard from './views/Dashboard.jsx'
 import PerfilUsuario from './views/PerfilUsuario.jsx'
 import DetalleProyecto from './components/DetalleProyecto.jsx'
+import { UsuarioProvider } from './context/UsuarioContext.jsx'
 
 const App = () => {
   return (
+    <UsuarioProvider>
     <Router>
     <div id='root'>
       <Header />
@@ -30,6 +32,7 @@ const App = () => {
       <Footer />
     </div>
     </Router>
+    </UsuarioProvider>
   )
 }
 export default App
